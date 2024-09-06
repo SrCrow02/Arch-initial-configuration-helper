@@ -1,7 +1,5 @@
-
 #!/bin/bash
 
-# Atualizar repositórios e pacotes
 sudo apt update && sudo apt upgrade -y
 
 # Instalar pacotes essenciais
@@ -19,18 +17,25 @@ sudo apt install -y nodejs docker.io neofetch
 # Baixar e instalar o Rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
-# Adicionar Rust ao PATH
-# Esta linha deve ser adicionada ao perfil do usuário ou ser executada na mesma sessão
 echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 
-# Adicionar a chave do repositório do Bitwarden
 wget -qO - https://keys.bitwarden.com/repo.gpg | sudo apt-key add -
 
-# Adicionar o repositório do Bitwarden
 echo "deb https://deb.bitwarden.com/ stable main" | sudo tee /etc/apt/sources.list.d/bitwarden.list
 
-# Atualizar a lista de pacotes e instalar o Bitwarden
 sudo apt update
 sudo apt install -y bitwarden
+
+git config --global user.name "Seu nome"
+git config --global user.email "seu_email@example.com"
+git config --global core.editor "vim"
+
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
+
+echo '*.log' >> ~/.gitignore_global
+git config --global core.excludesfile ~/.gitignore_global
 
