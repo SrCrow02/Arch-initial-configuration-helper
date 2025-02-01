@@ -1,7 +1,7 @@
 source ./arch/arch.sh
 source ./arch/change_kernel.sh
 source ./arch/maintain.sh
-source ./debian_distros.sh
+source ./debian/debian_distros.sh
 
 echo "What do u want to do?"
 read CHOOSE
