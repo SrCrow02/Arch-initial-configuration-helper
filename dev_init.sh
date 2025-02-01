@@ -1,13 +1,19 @@
-source ./arch.sh
+source ./arch/arch.sh
+source ./arch/change_kernel.sh
+source ./arch/maintain.sh
 source ./debian_distros.sh
 
-echo "Which Linux is yours"
+echo "What do u want to do?"
 read CHOOSE
 
-if [ "$CHOOSE" = "arch" ]; then
+if [ "$CHOOSE" = "maintain-arch" ]; then
+    maintain_arch
+elif [ "$CHOOSE" = "arch-init" ]; then
     arch_init
-elif [ "$CHOOSE" = "debian" ]; then 
+elif [ "$CHOOSE" = "init-debian" ]; then 
     debian_init
+elif [ "$CHOOSE" = "change-kernel" ]; then
+    change_kernel
 
 else 
     echo "Invalid choice"
