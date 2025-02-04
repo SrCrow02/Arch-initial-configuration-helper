@@ -4,26 +4,18 @@ arch_init() {
     # Atualiza o sistema
     sudo pacman -Syu --noconfirm
 
-    # Instala yay
-    sudo pacman -S --noconfirm yay gparted
+    # Instala pacotes essenciais
+    sudo pacman -S --noconfirm gparted apparmor vlc npm docker vim neovim falkon git curl base-devel kitty code ranger neofetch rsync fail2ban clamav discord nvm docker-compose nmap mps-youtube ufw
 
-    sudo pacman -S --noconfirm apparmor
+    # Ativar e configurar apparmor
     sudo systemctl enable apparmor
-    sudo systemctl startapparmor
-
-    sudo pacman -S --noconfirm vlc # para video
-
-    # Instalar pacotes essenciais e ferramentas com yay
-    yay -S --noconfirm npm docker vim neovim falkon git curl base-devel kitty code ranger neofetch rsync fail2ban clamav discord nvm docker-compose nmap mps-youtube
+    sudo systemctl start apparmor
 
     # Ativar e configurar fail2ban (Proteção contra Brute Force)
     sudo systemctl enable fail2ban --now
 
-    # Instalar e configurar Bitwarden usando yay
-    yay -S --noconfirm bitwarden
-
     # Instalar e configurar o Tor e Tor Browser
-    yay -S --noconfirm tor tor-browser
+    sudo pacman -S --noconfirm tor tor-browser
 
     # Configuração do Oh My Bash
     curl -fsSL https://github.com/ohmybash/oh-my-bash/raw/master/tools/install.sh | bash
@@ -39,17 +31,12 @@ arch_init() {
     echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
     source ~/.bashrc
 
-    # Configurar Bitwarden com a chave GPG
+    # Configurar Bitwarden com a chave GPG (caso o Bitwarden esteja disponível diretamente no pacman)
     wget -qO - https://keys.bitwarden.com/repo.gpg | sudo pacman-key --add -
     sudo pacman-key --lsign-key 9EAFACBF1B8E0F3C3C46765E5B4A4B6344C84E47
     echo "[bitwarden]
     SigLevel = Optional TrustAll
     Server = https://deb.bitwarden.com/ stable main" | sudo tee /etc/pacman.conf.d/bitwarden.conf
-
-    # Configuração do Git
-    git config --global user.name "Seu nome"
-    git config --global user.email "seu_email@example.com"
-    git config --global core.editor "nvim"
 
     # Definindo aliases do Git
     git config --global alias.co checkout
@@ -62,6 +49,9 @@ arch_init() {
     git config --global core.excludesfile ~/.gitignore_global
 
     # Configuração do UFW (Firewall)
-    sudo pacman -S --noconfirm ufw
     sudo systemctl enable ufw --now
+
+    sudo cp -f ./kitty/kitty.conf ~/.config/kitty/kitty.conf
+    sudo cp -f ./bash/aliases ~/.oh-my-bash
+    sudo cp -f ./bash/.bashrc ~/.bashrc
 }
